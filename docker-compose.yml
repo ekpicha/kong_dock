@@ -4,8 +4,8 @@ volumes:
     grafana_data: {}
     kong_datastore: 
     konga_database:
+    portainer_data:
 
-# network
 networks:
     webproxy:
         external:
@@ -122,6 +122,15 @@ services:
         expose:
             - "9100"
         restart: always
+
+    portainer:
+        image: portainer
+        container_name: portainer
+        expose:
+            - "9002"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - portainer_data:/data portainer/portainer
 
 # อันเก่า รอลง
 
