@@ -1,0 +1,42 @@
+# my global config
+global:
+    external_labels:
+        monitor: devops_monitor
+    scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+    evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+    # scrape_timeout is set to the global default (10s).
+
+# alert manager configuration
+alerting:
+    alertmanagers:
+    - static_configs:
+        - targets:
+        # - alertmanager:9093
+
+# scrape configuration
+scrape_configs:
+    - job_name: prometheus
+      static_configs:
+        - targets:
+          - "localhost:9090"
+
+    - job_name: node-exporter
+      static_configs:
+      - targets:
+          - "node-exporter:9100"
+
+# อันเก่า รอลง
+
+    # spring boot use metrics in prometheus
+    # -   job_name: 'springboot-swagger-metrics'
+    #     metrics_path: '/training/actuator/prometheus'
+    #     scrape_interval: 5s # every 5 seconds. This frequency can be changed
+    #     static_configs:
+    #     - targets: ['172.16.255.56:8888']
+
+# อันเก่า รอลง
+
+    - job_name: kong
+      static_configs:
+        - targets:
+            - "kong:8001"
