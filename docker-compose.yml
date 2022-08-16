@@ -1,18 +1,10 @@
-version: '3'
+version: '2'
 volumes:
-    prometheus_data: {}
-    grafana_data: {}
+    prometheus_data:
+    grafana_data:
     kong_datastore: 
     konga_database:
     portainer_data:
-
-networks:
-    webproxy:
-        external:
-            name: webproxy
-    default:
-        external:
-            name: kong_network
 
 services:
     kong:
@@ -63,7 +55,7 @@ services:
     kong_migration:
         image: kong:latest
         container_name: kong_migration
-        #command: "kong migrations bootstrap"
+        command: "kong migrations bootstrap"
         restart: on-failure
         environment:
             KONG_PG_HOST: kong_db
@@ -124,13 +116,21 @@ services:
         restart: always
 
     portainer:
-        image: portainer/portainer:latest
+        image: portainer/portainer-ce:latest
         container_name: portainer
-        expose:
-            - "9002"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
             - portainer_data:/data
+        expose:
+            - "9002"
+
+networks:
+    webproxy:
+        external:
+            name: webproxy
+    default:
+        external:
+            name: kong_network
 
 # อันเก่า รอลง
 
