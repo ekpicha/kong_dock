@@ -41,9 +41,9 @@ services:
             KONG_ADMIN_LISTEN:     0.0.0.0:8001, 0.0.0.0:8444 ssl
             KONG_PLUGINS:          basic-auth, key-auth, rate-limiting, prometheus, proxy-cache, oauth2
 
-            VIRTUAL_HOST: service.labxx.cpsudevops.com
-            VIRTUAL_PORT: 8000
-            LETSENCRYPT_HOST: service.labxx.cpsudevops.com
+            # VIRTUAL_HOST: service.labxx.cpsudevops.com
+            # VIRTUAL_PORT: 8000
+            # LETSENCRYPT_HOST: service.labxx.cpsudevops.com
 
         networks: 
             - webproxy
@@ -63,7 +63,7 @@ services:
     kong_migration:
         image: kong:latest
         container_name: kong_migration
-        command: "kong migrations bootstrap"
+        #command: "kong migrations bootstrap"
         restart: on-failure
         environment:
             KONG_PG_HOST: kong_db
@@ -82,9 +82,9 @@ services:
             DB_DATABASE: konga
             NODE_ENV: development
 
-            VIRTUAL_HOST: konga.labxx.cpsudevops.com
-            VIRTUAL_PORT: 1337
-            LETSENCRYPT_HOST: konga.labxx.cpsudevops.com
+            # VIRTUAL_HOST: konga.labxx.cpsudevops.com
+            # VIRTUAL_PORT: 1337
+            # LETSENCRYPT_HOST: konga.labxx.cpsudevops.com
 
         expose:
             - "1337"
