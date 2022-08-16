@@ -7,11 +7,11 @@ volumes:
 
 networks:
     webproxy:
-        external: true
-        name: webproxy
+        external:
+            name: webproxy
     default:
-        external: true
-        name: kong_network
+        external:
+            name: kong_network
 
 services:
     kong:
