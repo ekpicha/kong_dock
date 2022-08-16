@@ -124,7 +124,7 @@ services:
         restart: always
 
     portainer:
-        image: portainer:latest
+        image: portainer/portainer:latest
         container_name: portainer
         expose:
             - "9002"
