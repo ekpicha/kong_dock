@@ -5,6 +5,14 @@ volumes:
     kong_datastore: 
     konga_database:
 
+networks:
+    webproxy:
+        external: true
+        name: webproxy
+    default:
+        external: true
+        name: kong_network
+
 services:
     kong:
         image: kong:2.0.2-alpine
@@ -146,11 +154,3 @@ services:
     #         - "3000:3000"
 
 # อันเก่า รอลง
-
-networks:
-    webproxy:
-        external: true
-        name: webproxy
-    default:
-        external: true
-        name: kong_network
