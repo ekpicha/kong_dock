@@ -149,8 +149,8 @@ services:
 
 networks:
     webproxy:
-        external:
-            name: webproxy
+        external: true
+        name: webproxy
     default:
-        external:
-            name: kong_network
+        external: true
+        name: kong_network
