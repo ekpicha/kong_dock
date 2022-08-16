@@ -5,6 +5,7 @@ volumes:
     kong_datastore: 
     konga_database:
 
+# network
 networks:
     webproxy:
         external:
