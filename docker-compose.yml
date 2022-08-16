@@ -124,13 +124,13 @@ services:
         restart: always
 
     portainer:
-        image: portainer
+        image: portainer:latest
         container_name: portainer
         expose:
             - "9002"
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
-            - portainer_data:/data portainer/portainer
+            - portainer_data:/data
 
 # อันเก่า รอลง
 
