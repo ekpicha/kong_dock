@@ -1,5 +1,4 @@
 # git clone https://github.com/ekpicha/kong_dock.git
-
 version: '2'
 volumes:
     prometheus_data:
@@ -40,7 +39,7 @@ services:
             KONG_ADMIN_ERROR_LOG:  /dev/stderr
             KONG_PROXY_LISTEN:     0.0.0.0:8000, 0.0.0.0:8443 ssl
             KONG_ADMIN_LISTEN:     0.0.0.0:8001, 0.0.0.0:8444 ssl
-            KONG_PLUGINS:          basic-auth, key-auth, rate-limiting, prometheus, proxy-cache, oauth2
+            # KONG_PLUGINS:          basic-auth, key-auth, rate-limiting, prometheus, proxy-cache, oauth2
             KONG_ADMIN_GUI_URL:    http://localhost:8002
             KONG_LICENSE_DATA:
         networks: 
