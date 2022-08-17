@@ -21,7 +21,7 @@ services:
         container_name: kong
         depends_on:
             - kong_db
-            - kong_migration
+            # - kong_migration
         
         expose:
             - "8001"
