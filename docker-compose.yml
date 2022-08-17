@@ -1,5 +1,5 @@
 # git clone https://github.com/ekpicha/kong_dock.git
-version: '2'
+version: '3'
 volumes:
     prometheus_data:
     grafana_data:
@@ -19,9 +19,9 @@ services:
         # image: kong:2.0.2-alpine
         image: kong/kong-gateway:2.8.1.3-alpine
         container_name: kong
-        # depends_on:
-        #     - kong_db
-        #     - kong_migration
+        depends_on:
+            - kong_db
+            - kong_migration
         
         expose:
             - "8001"
@@ -38,8 +38,8 @@ services:
             KONG_PG_HOST:          kong_db
             KONG_PG_USER:          kong
             KONG_PG_PASSWORD:      kong
-            # KONG_PG_PORT:          5432
-            # KONG_PG_DATABASE:      kong
+            KONG_PG_PORT:          5431
+            KONG_PG_DATABASE:      kong
             KONG_PROXY_ACCESS_LOG: /dev/stdout
             KONG_ADMIN_ACCESS_LOG: /dev/stdout
             KONG_PROXY_ERROR_LOG:  /dev/stderr
@@ -57,18 +57,17 @@ services:
     kong_db:
         image: postgres:9.6
         container_name: kong_db
-        # volumes:
-        #     - kong_datastore:/var/lib/postgresql/data
-        # restart: always
+        volumes:
+            - kong_datastore:/var/lib/postgresql/data
+        restart: always
         environment:
             POSTGRES_DB: kong
             POSTGRES_USER: kong
             POSTGRES_PASSWORD: kong
             # POSTGRES_HOST_AUTH_METHOD: trust
         expose:
-            - "5432"
-        networks: 
-            - webproxy
+            - "5431"
+        networks:
             - default
     
     kong_migration:
@@ -76,16 +75,15 @@ services:
         image: kong/kong-gateway:2.8.1.3-alpine
         container_name: kong_migration
         command: "kong migrations bootstrap"
-        # restart: on-failure
+        restart: on-failure
         environment:
             KONG_PG_HOST: kong_db
             KONG_DATABASE: postgres
             KONG_PG_PASSWORD: kong
             KONG_PASSWORD: kong
-        # depends_on:
-        #     - kong_db
-        networks: 
-            - webproxy
+        depends_on:
+            - kong_db
+        networks:
             - default
 
 # --------------------------------------------------------------------------------
