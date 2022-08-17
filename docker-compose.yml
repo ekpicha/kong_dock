@@ -9,8 +9,8 @@ volumes:
     portainer_data:
 services:
     kong:
-        # image: kong:2.0.2-alpine
-        image: kong:2.8.1.3-alpine
+        image: kong:2.0.2-alpine
+        # image: kong/kong-gateway:2.8.1.3-alpine
         container_name: kong
         # depends_on:
         #     - kong_db
