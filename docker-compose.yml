@@ -1,112 +1,100 @@
-# git clone https://github.com/ekpicha/kong_dock.git
+# rm -rf kong_dock && git clone https://github.com/ekpicha/kong_dock.git && cd kong_dock
 version: '3'
 volumes:
     prometheus_data:
     grafana_data:
-    kong_datastore: 
-    konga_database:
-    portainer_data:
-networks:
-    webproxy:
-        external:
-            name: webproxy
-    default:
-        external:
-            name: kong_network
+    # kong_datastore: 
+    # konga_database:
+    # portainer_data:
+# networks:
+#     webproxy:
+#         external:
+#             name: webproxy
+#     default:
+#         external:
+#             name: kong_network
 services:
-    # kong-gateway:
-    kong:
-        # image: kong:2.0.2-alpine
-        image: kong/kong-gateway:2.8.1.3-alpine
-        container_name: kong
-        depends_on:
-            - kong_db
-            # - kong_migration
-        
-        expose:
-            - "8001"
-            - "8444"
-            - "8000"
-            - "8443"
-            - "8002"
-            - "8445"
-            - "8003"
-            - "8004"
-        restart: always
-        environment:
-            KONG_DATABASE:         postgres
-            KONG_PG_HOST:          kong_db
-            KONG_PG_USER:          kong
-            KONG_PG_PASSWORD:      kong
-            KONG_PG_PORT:          5431
-            KONG_PG_DATABASE:      kong
-            KONG_PROXY_ACCESS_LOG: /dev/stdout
-            KONG_ADMIN_ACCESS_LOG: /dev/stdout
-            KONG_PROXY_ERROR_LOG:  /dev/stderr
-            KONG_ADMIN_ERROR_LOG:  /dev/stderr
-            KONG_PROXY_LISTEN:     0.0.0.0:8000, 0.0.0.0:8443 ssl
-            KONG_ADMIN_LISTEN:     0.0.0.0:8001, 0.0.0.0:8444 ssl
-            # KONG_PLUGINS:          basic-auth, key-auth, rate-limiting, prometheus, proxy-cache, oauth2
-            KONG_ADMIN_GUI_URL:    http://localhost:8002
-            KONG_LICENSE_DATA:
-        networks: 
-            - webproxy
-            - default
+    # kong:
+    #     # image: kong:2.0.2-alpine
+    #     image: kong/kong-gateway:2.8.1.3-alpine
+    #     container_name: kong
+    #     depends_on:
+    #         - kong_db
+    #         - kong_migration
+    #     expose:
+    #         - "8001"
+    #         - "8444"
+    #         - "8000"
+    #         - "8443"
+    #         - "8002"
+    #         - "8445"
+    #         - "8003"
+    #         - "8004"
+    #     restart: always
+    #     environment:
+    #         KONG_DATABASE:         postgres
+    #         KONG_PG_HOST:          kong_db
+    #         KONG_PG_USER:          kong
+    #         KONG_PG_PASSWORD:      kong
+    #         KONG_PG_PORT:          5431
+    #         KONG_PG_DATABASE:      kong
+    #         KONG_PROXY_ACCESS_LOG: /dev/stdout
+    #         KONG_ADMIN_ACCESS_LOG: /dev/stdout
+    #         KONG_PROXY_ERROR_LOG:  /dev/stderr
+    #         KONG_ADMIN_ERROR_LOG:  /dev/stderr
+    #         KONG_PROXY_LISTEN:     0.0.0.0:8000, 0.0.0.0:8443 ssl
+    #         KONG_ADMIN_LISTEN:     0.0.0.0:8001, 0.0.0.0:8444 ssl
+    #         # KONG_PLUGINS:          basic-auth, key-auth, rate-limiting, prometheus, proxy-cache, oauth2
+    #         KONG_ADMIN_GUI_URL:    http://localhost:8002
+    #         KONG_LICENSE_DATA:
+    #     networks: 
+    #         - webproxy
+    #         - default
 
-    # kong-database
-    kong_db:
-        image: postgres:9.6
-        container_name: kong_db
-        volumes:
-            - kong_datastore:/var/lib/postgresql/data
-        restart: always
-        environment:
-            POSTGRES_DB: kong
-            POSTGRES_USER: kong
-            POSTGRES_PASSWORD: kong
-            # POSTGRES_HOST_AUTH_METHOD: trust
-        expose:
-            - "5431"
-        networks:
-            - default
+    # kong_db:
+    #     image: postgres:9.6
+    #     container_name: kong_db
+    #     volumes:
+    #         - kong_datastore:/var/lib/postgresql/data
+    #     restart: always
+    #     environment:
+    #         POSTGRES_DB: kong
+    #         POSTGRES_USER: kong
+    #         POSTGRES_PASSWORD: kong
+    #         POSTGRES_HOST_AUTH_METHOD: trust
+    #     expose:
+    #         - "5431"
+    #     networks:
+    #         - default
     
-    kong_migration:
-        # image: kong:latest
-        image: kong/kong-gateway:2.8.1.3-alpine
-        container_name: kong_migration
-        command: "kong migrations bootstrap"
-        restart: on-failure
-        environment:
-            KONG_PG_HOST: kong_db
-            KONG_DATABASE: postgres
-            KONG_PG_PASSWORD: kong
-            KONG_PASSWORD: kong
-        depends_on:
-            - kong_db
-        networks:
-            - default
-
-# --------------------------------------------------------------------------------
+    # kong_migration:
+    #     # image: kong:latest
+    #     image: kong/kong-gateway:2.8.1.3-alpine
+    #     container_name: kong_migration
+    #     command: "kong migrations bootstrap"
+    #     restart: on-failure
+    #     environment:
+    #         KONG_PG_HOST: kong_db
+    #         KONG_DATABASE: postgres
+    #         KONG_PG_PASSWORD: kong
+    #         KONG_PASSWORD: kong
+    #     depends_on:
+    #         - kong_db
+    #     networks:
+    #         - default
 
     # konga:
     #     container_name: konga
     #     image: pantsel/konga
     #     restart: always
-
     #     environment:
     #         DB_ADAPTER: postgres
     #         DB_HOST: konga_db
     #         DB_USER: konga 
     #         DB_DATABASE: konga
     #         NODE_ENV: development
-
-    #         # VIRTUAL_HOST: konga.labxx.cpsudevops.com
-    #         # VIRTUAL_PORT: 1337
-    #         # LETSENCRYPT_HOST: konga.labxx.cpsudevops.com
-
     #     expose:
     #         - "1337"
-
     #     networks: 
     #         - webproxy
     #         - default
@@ -122,24 +110,24 @@ services:
     #         POSTGRES_USER: konga
     #         POSTGRES_HOST_AUTH_METHOD: trust 
 
-    # prometheus:
-    #     image: prom/prometheus:latest
-    #     container_name: prometheus
-    #     volumes:
-    #         - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    #         - prometheus_data:/promtheus
-    #     command:
-    #         - '--config.file=/etc/prometheus/prometheus.yml'
-    #     expose:
-    #         - "9090"
-    #     restart: always
+    prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
+        volumes:
+            - ./prometheus.yml:/etc/prometheus/prometheus.yml
+            - prometheus_data:/promtheus
+        command:
+            - '--config.file=/etc/prometheus/prometheus.yml'
+        expose:
+            - "9090"
+        restart: always
 
-    # node_exporter:
-    #     image: prom/node-exporter:latest
-    #     container_name: node_exporter
-    #     expose:
-    #         - "9100"
-    #     restart: always
+    node_exporter:
+        image: prom/node-exporter:latest
+        container_name: node_exporter
+        expose:
+            - "9100"
+        restart: always
 
     # portainer:
     #     image: portainer/portainer-ce:latest
@@ -169,16 +157,23 @@ services:
     #     ports:
     #         - '9100:9100'
             
-    # grafana:
-    #     image: grafana/grafana:latest
-    #     volumes:
-    #         - grafana_data:/var/lib/grafana
-    #     environment:
-    #         - GF_SECURITY_ADMIN_PASSWORD=admin
-    #         - GF_SERVER_ROOT_URL=http://grafana.server.name
-    #     depends_on:
-    #         - prometheus
-    #     ports:
-    #         - "3000:3000"
+    grafana:
+        image: grafana/grafana:latest
+        container_name: grafana
+        volumes:
+            - grafana_data:/var/lib/grafana
+        environment:
+            - GF_SECURITY_ADMIN_PASSWORD=admin
+            - GF_SERVER_ROOT_URL=http://grafana.server.name
+            - GF_INSTALL_PLUGINS
+                - grafana-clock-panel
+                - grafana-simple-json-datasource
+        depends_on:
+            - prometheus
+        expose:
+            - "3000"
+        restart: always
+        networks:
+            - kong-net
 
 # อันเก่า รอลง
