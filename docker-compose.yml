@@ -1,3 +1,5 @@
+# git clone https://github.com/ekpicha/kong_dock.git
+
 version: '2'
 volumes:
     prometheus_data:
@@ -5,7 +7,6 @@ volumes:
     kong_datastore: 
     konga_database:
     portainer_data:
-
 services:
     kong:
         image: kong:2.0.2-alpine
@@ -32,10 +33,6 @@ services:
             KONG_PROXY_LISTEN:     0.0.0.0:8000, 0.0.0.0:8443 ssl
             KONG_ADMIN_LISTEN:     0.0.0.0:8001, 0.0.0.0:8444 ssl
             KONG_PLUGINS:          basic-auth, key-auth, rate-limiting, prometheus, proxy-cache, oauth2
-
-            # VIRTUAL_HOST: service.labxx.cpsudevops.com
-            # VIRTUAL_PORT: 8000
-            # LETSENCRYPT_HOST: service.labxx.cpsudevops.com
 
         networks: 
             - webproxy
