@@ -13,6 +13,10 @@ volumes:
 #     default:
 #         external:
 #             name: kong_network
+networks:
+    kong-net:
+        external:
+            name: kong-net 
 services:
     # kong:
     #     # image: kong:2.0.2-alpine
