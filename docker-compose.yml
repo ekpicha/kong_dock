@@ -6,15 +6,22 @@ volumes:
     kong_datastore: 
     konga_database:
     portainer_data:
+networks:
+    webproxy:
+        external:
+            name: webproxy
+    default:
+        external:
+            name: kong_network
 services:
     # kong-gateway:
     kong:
         # image: kong:2.0.2-alpine
         image: kong/kong-gateway:2.8.1.3-alpine
         container_name: kong
-        depends_on:
-            - kong_db
-            - kong_migration
+        # depends_on:
+        #     - kong_db
+        #     - kong_migration
         
         expose:
             - "8001"
@@ -75,83 +82,75 @@ services:
             KONG_DATABASE: postgres
             KONG_PG_PASSWORD: kong
             KONG_PASSWORD: kong
-        depends_on:
-            - kong_db
+        # depends_on:
+        #     - kong_db
         networks: 
             - webproxy
             - default
 
 # --------------------------------------------------------------------------------
 
-    konga:
-        container_name: konga
-        image: pantsel/konga
-        restart: always
+    # konga:
+    #     container_name: konga
+    #     image: pantsel/konga
+    #     restart: always
 
-        environment:
-            DB_ADAPTER: postgres
-            DB_HOST: konga_db
-            DB_USER: konga 
-            DB_DATABASE: konga
-            NODE_ENV: development
+    #     environment:
+    #         DB_ADAPTER: postgres
+    #         DB_HOST: konga_db
+    #         DB_USER: konga 
+    #         DB_DATABASE: konga
+    #         NODE_ENV: development
 
-            # VIRTUAL_HOST: konga.labxx.cpsudevops.com
-            # VIRTUAL_PORT: 1337
-            # LETSENCRYPT_HOST: konga.labxx.cpsudevops.com
+    #         # VIRTUAL_HOST: konga.labxx.cpsudevops.com
+    #         # VIRTUAL_PORT: 1337
+    #         # LETSENCRYPT_HOST: konga.labxx.cpsudevops.com
 
-        expose:
-            - "1337"
+    #     expose:
+    #         - "1337"
 
-        networks: 
-            - webproxy
-            - default
+    #     networks: 
+    #         - webproxy
+    #         - default
 
-    konga_db:
-        image: postgres:9.6
-        container_name: konga_db
-        volumes:
-            - konga_database:/var/lib/postgresql/data
-        restart: always
-        environment:
-            POSTGRES_DB: konga
-            POSTGRES_USER: konga
-            POSTGRES_HOST_AUTH_METHOD: trust 
+    # konga_db:
+    #     image: postgres:9.6
+    #     container_name: konga_db
+    #     volumes:
+    #         - konga_database:/var/lib/postgresql/data
+    #     restart: always
+    #     environment:
+    #         POSTGRES_DB: konga
+    #         POSTGRES_USER: konga
+    #         POSTGRES_HOST_AUTH_METHOD: trust 
 
-    prometheus:
-        image: prom/prometheus:latest
-        container_name: prometheus
-        volumes:
-            - ./prometheus.yml:/etc/prometheus/prometheus.yml
-            - prometheus_data:/promtheus
-        command:
-            - '--config.file=/etc/prometheus/prometheus.yml'
-        expose:
-            - "9090"
-        restart: always
+    # prometheus:
+    #     image: prom/prometheus:latest
+    #     container_name: prometheus
+    #     volumes:
+    #         - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    #         - prometheus_data:/promtheus
+    #     command:
+    #         - '--config.file=/etc/prometheus/prometheus.yml'
+    #     expose:
+    #         - "9090"
+    #     restart: always
 
-    node_exporter:
-        image: prom/node-exporter:latest
-        container_name: node_exporter
-        expose:
-            - "9100"
-        restart: always
+    # node_exporter:
+    #     image: prom/node-exporter:latest
+    #     container_name: node_exporter
+    #     expose:
+    #         - "9100"
+    #     restart: always
 
-    portainer:
-        image: portainer/portainer-ce:latest
-        container_name: portainer
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-            - portainer_data:/data
-        expose:
-            - "9002"
-
-networks:
-    webproxy:
-        external:
-            name: webproxy
-    default:
-        external:
-            name: kong_network
+    # portainer:
+    #     image: portainer/portainer-ce:latest
+    #     container_name: portainer
+    #     volumes:
+    #         - /var/run/docker.sock:/var/run/docker.sock
+    #         - portainer_data:/data
+    #     expose:
+    #         - "9002"
 
 # อันเก่า รอลง
 
