@@ -134,6 +134,8 @@ services:
         ports:
             - '9090:9090'
         restart: always
+        networks:
+            - kong-net
 
     node-exporter:
         image: prom/node-exporter:latest
@@ -141,6 +143,8 @@ services:
         ports:
             - '9100:9100'
         restart: always
+        networks:
+            - kong-net
             
     grafana:
         image: grafana/grafana:latest
