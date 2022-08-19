@@ -98,3 +98,5 @@ pantsel/konga
 # --env DB_PASSWORD=<your Postgres users password>
 # --env DB_DATABASE=kong
             
+# ลองใช้ network เดียวกันตรวจสอบ health check
+docker run -d --network kong-net -p 49153:80 tutum/hello-world
